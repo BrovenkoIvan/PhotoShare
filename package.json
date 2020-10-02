@@ -9,7 +9,7 @@
     "test": "jest",
     "lint": "eslint .",
     "postinstall": "rndebugger-open",
-    "rndebugger": "open \"rndebugger://set-debugger-loc?host=localhost&port=8081\""
+    "rnd": "open \"rndebugger://set-debugger-loc?host=localhost&port=8081\""
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.0",
