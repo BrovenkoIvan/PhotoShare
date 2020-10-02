@@ -5,7 +5,6 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
-  Button,
 } from 'react-native';
 import AuthForm from './../components/AuthForm';
 import {Context} from '../context/AuthContext';
