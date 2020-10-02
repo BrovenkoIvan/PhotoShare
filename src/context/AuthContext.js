@@ -6,13 +6,13 @@ const authReducer = (state, action) => {
     case 'add_error':
       return {...state, errorMessage: action.payload};
     case 'signin':
-      return {errorMessage: ''};
+      return {errorMessage: '', user: action.payload.user};
     case 'clearErrorMessage':
       return {...state, errorMessage: ''};
     case 'signout':
       return {errorMessage: ''};
     case 'adduser':
-      return {...state, user: action.payload}
+      return {...state, user: action.payload};
     default:
       return state;
   }
@@ -59,12 +59,9 @@ const logout = (dispatch) => async () => {
     });
   }
 };
-const setUser = dispatch => async ({user}) => {
-    dispatch({type: 'adduser', payload: user})
-}
 
 export const {Provider, Context} = createDataContext(
   authReducer,
-  {signin, clearErrorMessage, signup, logout, setUser},
+  {signin, clearErrorMessage, signup, logout},
   {errorMessage: '', user: null},
 );
