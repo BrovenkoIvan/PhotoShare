@@ -1,12 +1,22 @@
-import React, { useContext } from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
-import AuthFormSignup from './../components/AuthFormSignUp'
+import React, {useContext, useEffect} from 'react';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
+import AuthFormSignup from './../components/AuthFormSignUp';
 import {Context} from '../context/AuthContext';
-  const SignupScreen = () => {
-    const {signup, state} = useContext(Context)
+
+const SignupScreen = ({navigation}) => {
+  console.log('sign up screen')
+  const {signup, state, clearErrorMessage} = useContext(Context);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      clearErrorMessage()
+    })
+    return unsubscribe
+  },[navigation])
   return (
-    <SafeAreaView>
-      <AuthFormSignup onSubmit={signup} errorMessage={state.errorMessage}/>
+    <SafeAreaView style={style.container}>
+      <View>
+        <AuthFormSignup onSubmit={signup} errorMessage={state.errorMessage} />
+      </View>
     </SafeAreaView>
   );
 };
@@ -14,7 +24,8 @@ import {Context} from '../context/AuthContext';
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center'
-  }
-})
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 export default SignupScreen;
