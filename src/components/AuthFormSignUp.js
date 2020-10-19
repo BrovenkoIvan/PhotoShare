@@ -6,17 +6,32 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import { useTheme } from '@react-navigation/native';
+
 
 const AuthForm = ({onSubmit, errorMessage}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const { colors } = useTheme();
 
   return (
     <View style={styles.container}>
       <View style={styles.textView}>
-        <Text style={styles.text}>Sign up</Text>
+        <Text style={{color: colors.text, fontSize: 28}}>Sign up</Text>
       </View>
       <View>
+        <View>
+          <TextInput
+            autoCorrect={false}
+            autoCapitalize="none"
+            value={name}
+            onChangeText={setName}
+            placeholder={'name'}
+            placeholderTextColor={colors.text}
+            style={styles.Input}
+          />
+        </View>
         <View>
           <TextInput
             autoCorrect={false}
@@ -24,6 +39,7 @@ const AuthForm = ({onSubmit, errorMessage}) => {
             value={email}
             onChangeText={setEmail}
             placeholder={'Email'}
+            placeholderTextColor={colors.text}
             style={styles.Input}
           />
         </View>
@@ -34,17 +50,17 @@ const AuthForm = ({onSubmit, errorMessage}) => {
             value={password}
             onChangeText={setPassword}
             placeholder={'password'}
+            placeholderTextColor={colors.text}
             style={styles.Input}
             secureTextEntry={true}
           />
         </View>
       </View>
-      <View>{errorMessage ? <Text>{errorMessage}</Text> : null}</View>
-      <TouchableOpacity onPress={()=> onSubmit({email,password})}>
+      { name && email && password ? <TouchableOpacity onPress={() => onSubmit({email, password, name})}>
         <View style={styles.button}>
-          <Text>Войти</Text>
+          <Text >Enter</Text>
         </View>
-      </TouchableOpacity>
+      </TouchableOpacity> : null}
     </View>
   );
 };
@@ -54,8 +70,8 @@ const styles = StyleSheet.create({
     marginBottom: 100,
     padding: 15,
   },
-  textView:{
-      marginBottom: 15
+  textView: {
+    marginBottom: 15,
   },
   text: {
     fontSize: 28,

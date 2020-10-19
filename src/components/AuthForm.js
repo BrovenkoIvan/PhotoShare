@@ -1,20 +1,46 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   Text,
   View,
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
+import {useTheme} from '@react-navigation/native';
+import {Context} from '../context/AuthContext';
 
-const AuthForm = ({onSubmit, errorMessage}) => {
+const AuthForm = ({onSubmit, errorMessage, }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const {colors} = useTheme();
+  const {clearErrorMessage, state} = useContext(Context);
+
+  const ErrorAlert = () => {
+    Alert.alert(
+      'Error',
+      `${state.errorMessage}`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => clearErrorMessage(),
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            clearErrorMessage(), setEmail(''), setPassword('');
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.textView}>
-        <Text style={styles.text}>Sign in</Text>
+        <Text style={{fontSize: 28, color: colors.text}}>Sign in</Text>
       </View>
       <View>
         <View>
@@ -24,7 +50,10 @@ const AuthForm = ({onSubmit, errorMessage}) => {
             value={email}
             onChangeText={setEmail}
             placeholder={'Email'}
+            placeholderTextColor={colors.text}
             style={styles.Input}
+            
+            
           />
         </View>
         <View>
@@ -34,15 +63,16 @@ const AuthForm = ({onSubmit, errorMessage}) => {
             value={password}
             onChangeText={setPassword}
             placeholder={'password'}
+            placeholderTextColor={colors.text}
             style={styles.Input}
             secureTextEntry={true}
           />
         </View>
       </View>
-      <View>{errorMessage ? <Text>{errorMessage}</Text> : null}</View>
+      <View>{errorMessage ? ErrorAlert() : null}</View>
       <TouchableOpacity onPress={() => onSubmit({email, password})}>
         <View style={styles.button}>
-          <Text>Войти</Text>
+          <Text style={{fontSize: 20, fontWeight: 'bold'}}>Enter</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -56,9 +86,6 @@ const styles = StyleSheet.create({
   },
   textView: {
     marginBottom: 15,
-  },
-  text: {
-    fontSize: 28,
   },
   Input: {
     borderWidth: 1,
