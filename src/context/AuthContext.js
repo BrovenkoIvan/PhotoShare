@@ -1,18 +1,18 @@
 import createDataContext from './createDataContext';
 import auth from '@react-native-firebase/auth';
-
+import database from '@react-native-firebase/database';
 const authReducer = (state, action) => {
   switch (action.type) {
     case 'add_error':
       return {...state, errorMessage: action.payload};
     case 'signin':
-      return {errorMessage: '', user: action.payload.user};
+      return { errorMessage: '', user: action.payload};
+    case 'signup':
+      return { errorMessage: '', user: action.payload};
     case 'clearErrorMessage':
       return {...state, errorMessage: ''};
     case 'signout':
-      return {errorMessage: ''};
-    case 'adduser':
-      return {...state, user: action.payload};
+      return {errorMessage: '', user: null};
     default:
       return state;
   }
@@ -22,46 +22,53 @@ const clearErrorMessage = (dispatch) => () => {
   dispatch({type: 'clearErrorMessage'});
 };
 
-const signin = (dispatch) => async ({email, password}) => {
+const signin = dispatch => async ({email, password}) => {
   try {
     const responce = await auth().signInWithEmailAndPassword(email, password);
-    console.log('signin', responce);
-    dispatch({type: 'signin', payload: responce});
+    dispatch({type: 'signin', payload: responce.user});
   } catch (err) {
     dispatch({
       type: 'add_error',
-      payload: 'Something went wrong with sign in',
+      payload: err,
     });
   }
 };
-const signup = (dispatch) => async ({email, password}) => {
+const writeUserData = (email, name, userId) => {
+  database()
+    .ref('users/' + userId)
+    .set({
+      userName: name,
+      email: email,
+      userAvatarImage: null
+    });
+};
+const signup = (dispatch) => async ({email, password, name}) => {
   try {
-    const responce = await auth().createUserWithEmailAndPassword(
-      email,
-      password,
-    );
-    console.log('signup', responce);
-    dispatch({type: 'signin', payload: responce});
+    await auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((result) => {
+        dispatch({type: 'signup', payload: result.user})
+        writeUserData(email, name, result.user.uid, result.user )
+      })
   } catch (err) {
+    console.log(err);
     dispatch({
       type: 'add_error',
-      payload: 'Something went wrong with sign up',
+      payload: err,
     });
   }
 };
-const logout = (dispatch) => async () => {
+const signOut = (dispatch) => async () => {
   try {
     await auth().signOut();
+    dispatch({type: 'signout'});
   } catch (e) {
-    dispatch({
-      type: 'add_error',
-      payload: 'Something went wrong with signout',
-    });
+    console.log(err);
   }
 };
 
 export const {Provider, Context} = createDataContext(
   authReducer,
-  {signin, clearErrorMessage, signup, logout},
+  {signin, clearErrorMessage, signup, signOut},
   {errorMessage: '', user: null},
 );
