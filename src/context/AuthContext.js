@@ -39,8 +39,10 @@ const writeUserData = (email, name, userId) => {
     .set({
       userName: name,
       email: email,
-      userAvatarImage: null
+      userAvatarImage: null,
+      postUser: null
     });
+   
 };
 const signup = (dispatch) => async ({email, password, name}) => {
   try {
@@ -58,6 +60,7 @@ const signup = (dispatch) => async ({email, password, name}) => {
     });
   }
 };
+
 const signOut = (dispatch) => async () => {
   try {
     await auth().signOut();
@@ -70,5 +73,5 @@ const signOut = (dispatch) => async () => {
 export const {Provider, Context} = createDataContext(
   authReducer,
   {signin, clearErrorMessage, signup, signOut},
-  {errorMessage: '', user: null},
+  {errorMessage: '', user: null, dataUser:{}},
 );

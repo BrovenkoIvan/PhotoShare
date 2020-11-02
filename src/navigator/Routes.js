@@ -9,7 +9,7 @@ import {
 import {Context} from '../context/AuthContext';
 import auth from '@react-native-firebase/auth';
 import Loading from '../components/Loading';
-import {AppearanceProvider, useColorScheme, Appearance} from 'react-native';
+import { AppearanceProvider, useColorScheme, Appearance} from 'react-native-appearance';
 
 
 const Routes = () => {
@@ -30,14 +30,16 @@ const Routes = () => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
   }, []);
+  
   if (loading) {
     return <Loading />;
   }
   return (
+    <AppearanceProvider>
     <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
       {state.user ? <HomeStack /> : <LoginStack />}
     </NavigationContainer>
-
+    </AppearanceProvider>
   );
 };
 

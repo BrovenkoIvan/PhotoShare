@@ -21,6 +21,7 @@
     "@react-navigation/bottom-tabs": "^5.8.0",
     "@react-navigation/native": "^5.7.3",
     "@react-navigation/stack": "^5.9.0",
+    "buffer": "^5.6.0",
     "firebase": "^7.23.0",
     "firebaseui": "^4.6.1",
     "react": "16.13.1",
@@ -31,6 +32,7 @@
     "react-native-reanimated": "^1.13.0",
     "react-native-safe-area-context": "^3.1.7",
     "react-native-screens": "^2.10.1",
+    "react-native-uuid": "^1.4.9",
     "react-native-vector-icons": "^7.1.0"
   },
   "devDependencies": {
