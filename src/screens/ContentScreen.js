@@ -2,16 +2,13 @@ import React, {useState, useLayoutEffect, useEffect} from 'react';
 import {
   SafeAreaView,
   Text,
-  Button,
   Image,
   TouchableOpacity,
   View,
   FlatList,
 } from 'react-native';
-import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import database from '@react-native-firebase/database';
-import Loading from '../components/Loading';
 
 const ContentScreen = ({navigation}) => {
   const [posts, setPosts] = useState([]);

@@ -7,14 +7,15 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useTheme } from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {signup} from '../redux/actions'
 
-
-const AuthForm = ({onSubmit, errorMessage}) => {
+const AuthForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const { colors } = useTheme();
-
+  const dispatch = useDispatch()
   return (
     <View style={styles.container}>
       <View style={styles.textView}>
@@ -56,7 +57,7 @@ const AuthForm = ({onSubmit, errorMessage}) => {
           />
         </View>
       </View>
-      { name && email && password ? <TouchableOpacity onPress={() => onSubmit({email, password, name})}>
+      { name && email && password ? <TouchableOpacity onPress={() => dispatch(signup({email, password, name}))}>
         <View style={styles.button}>
           <Text >Enter</Text>
         </View>

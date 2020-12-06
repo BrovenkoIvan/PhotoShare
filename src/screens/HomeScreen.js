@@ -7,30 +7,32 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
-  FlatList,
 } from 'react-native';
-import auth from '@react-native-firebase/auth';
-import {Context} from '../context/AuthContext';
+import {useDispatch, useSelector} from 'react-redux';
 import database from '@react-native-firebase/database';
 import storage from '@react-native-firebase/storage';
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/Feather';
 import {useTheme} from '@react-navigation/native';
 import Loading from '../components/Loading';
+import UserPostList from '../components/UserPostList';
+import {setDataUser, signOut} from '../redux/actions'
 
 const AccountScreen = ({navigation}) => {
-  const {signOut, state} = useContext(Context);
+
   const {colors} = useTheme();
   const [userData, setUserData] = useState([]);
   const [avatarSourse, setAvatarSource] = useState(null);
-  const [posts, setPosts] = useState([]);
   const [loadingImage, setLoadingImage] = useState(false);
+
+  const state = useSelector((state) => state.auth);
+  const dispatch = useDispatch()
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <View style={{marginRight: 5}}>
-          <TouchableOpacity onPress={() => signOut()}>
+          <TouchableOpacity onPress={() => dispatch(signOut())}>
             <Icon name="log-out" size={25} color="rgb(0, 205, 251)" />
           </TouchableOpacity>
         </View>
@@ -48,7 +50,7 @@ const AccountScreen = ({navigation}) => {
       .on('value', (snapshot) => {
         var data = snapshot.val();
         setUserData(data);
-        state.dataUser = data;
+        dispatch(setDataUser(data))
       });
   };
 
@@ -145,35 +147,43 @@ const AccountScreen = ({navigation}) => {
       }
     });
   };
-  console.log(avatarSourse);
-  console.log(loadingImage);
+  console.log(state)
+  if(state.loading)
+  return(
+    <Loading/>
+  )
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.imageContainer}>
-        {loadingImage ? (
-          <View>
-            <Loading />
-          </View>
-        ) : (
-          <Image source={avatarSourse} style={styles.avatarImage} />
-        )}
+      <View style={{alignItems: 'center'}}>
+        <View style={styles.imageContainer}>
+          {loadingImage ? (
+            <View>
+              <Loading />
+            </View>
+          ) : (
+            <Image source={avatarSourse} style={styles.avatarImage} />
+          )}
+        </View>
+        <Button
+          title={avatarSourse ? 'Edit Avatar' : 'Add Avatar'}
+          onPress={pickImage}
+        />
+        {avatarSourse ? (
+          <Button title={'Delete Avatar'} onPress={deleteAvatar} />
+        ) : null}
+        <View>
+          <Text style={{color: colors.text}}>{userData.userName}</Text>
+        </View>
+
+        <UserPostList />
       </View>
-      <Button
-        title={avatarSourse ? 'Edit Avatar' : 'Add Avatar'}
-        onPress={pickImage}
-      />
-      {avatarSourse ? (
-        <Button title={'Delete Avatar'} onPress={deleteAvatar} />
-      ) : null}
-      <Text style={{color: colors.text}}>{userData.userName}</Text>
-      <Text style={{color: colors.text}}>{userData.email}</Text>
     </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    alignItems: 'center',
+    // alignItems: 'center',
     marginTop: 30,
   },
   imageContainer: {

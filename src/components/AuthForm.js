@@ -8,34 +8,35 @@ import {
   Alert,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import {Context} from '../context/AuthContext';
+import {useDispatch, useSelector} from 'react-redux';
+import {signin} from '../redux/actions'
 
-const AuthForm = ({onSubmit, errorMessage, }) => {
+const AuthForm = ({ }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const {colors} = useTheme();
-  const {clearErrorMessage, state} = useContext(Context);
+  const dispatch = useDispatch()
 
-  const ErrorAlert = () => {
-    Alert.alert(
-      'Error',
-      `${state.errorMessage}`,
-      [
-        {
-          text: 'Cancel',
-          onPress: () => clearErrorMessage(),
-          style: 'cancel',
-        },
-        {
-          text: 'OK',
-          onPress: () => {
-            clearErrorMessage(), setEmail(''), setPassword('');
-          },
-        },
-      ],
-      {cancelable: false},
-    );
-  };
+  // const ErrorAlert = () => {
+  //   Alert.alert(
+  //     'Error',
+  //     `${state.errorMessage}`,
+  //     [
+  //       {
+  //         text: 'Cancel',
+  //         onPress: () => clearErrorMessage(),
+  //         style: 'cancel',
+  //       },
+  //       {
+  //         text: 'OK',
+  //         onPress: () => {
+  //           clearErrorMessage(), setEmail(''), setPassword('');
+  //         },
+  //       },
+  //     ],
+  //     {cancelable: false},
+  //   );
+  // };
 
   return (
     <View style={styles.container}>
@@ -69,8 +70,7 @@ const AuthForm = ({onSubmit, errorMessage, }) => {
           />
         </View>
       </View>
-      <View>{errorMessage ? ErrorAlert() : null}</View>
-      <TouchableOpacity onPress={() => onSubmit({email, password})}>
+      <TouchableOpacity onPress={() => dispatch(signin({email, password}))}>
         <View style={styles.button}>
           <Text style={{fontSize: 20, fontWeight: 'bold'}}>Enter</Text>
         </View>

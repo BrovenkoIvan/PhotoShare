@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, Text, Button, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 
-const PostForm = () => {
+const PostScreen = () => {
     return(
         <View>
             <Text>Post form</Text>
@@ -12,4 +12,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default PostForm
+export default PostScreen

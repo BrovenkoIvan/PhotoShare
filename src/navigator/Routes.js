@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import HomeStack from './HomeStack';
 import LoginStack from './LoginStack';
 import {
@@ -6,20 +6,22 @@ import {
   DefaultTheme,
   DarkTheme,
 } from '@react-navigation/native';
-import {Context} from '../context/AuthContext';
 import auth from '@react-native-firebase/auth';
+import {useDispatch, useSelector} from 'react-redux';
 import Loading from '../components/Loading';
 import { AppearanceProvider, useColorScheme, Appearance} from 'react-native-appearance';
-
+import {setUser} from '../redux/actions'
 
 const Routes = () => {
   const scheme = useColorScheme();
-  const {state} = useContext(Context);
-  const [loading, setLoading] = useState(true);
+  // const {state} = useContext(Context);
+  const [loading, setLoading] = useState(false);
   const [initializing, setInitializing] = useState(true);
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch()
 
   const onAuthStateChanged = (user) => {
-    state.user = user;
+    dispatch(setUser({user}))
     
     if (initializing) {
       setInitializing(false);
@@ -37,7 +39,7 @@ const Routes = () => {
   return (
     <AppearanceProvider>
     <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
-      {state.user ? <HomeStack /> : <LoginStack />}
+      {user ? <HomeStack /> : <LoginStack />}
     </NavigationContainer>
     </AppearanceProvider>
   );

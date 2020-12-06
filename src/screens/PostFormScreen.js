@@ -1,25 +1,25 @@
-import React, {useContext, useLayoutEffect, useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
   StyleSheet,
   Image,
   Button,
   TextInput,
 } from 'react-native';
-import {Context} from '../context/AuthContext';
+
 import database from '@react-native-firebase/database';
 import ImagePicker from 'react-native-image-picker';
 import uuid from 'react-native-uuid';
 import storage from '@react-native-firebase/storage'
 import Loading from '../components/Loading'
+import { useSelector} from 'react-redux';
 const PostFormScreen = ({navigation}) => {
   const [textInput, setTextInput] = useState('');
   const [imageSource, setImageSource] = useState({});
-  const {state} = useContext(Context);
+  // const {state} = useContext(Context);
   const[loadingImage, setLoadingImage] = useState(false)
-  
+  const state = useSelector((state) => state.auth);
 
   const pickImage = () => {
     ImagePicker.showImagePicker({title: 'Select Photo'}, (response) => {
@@ -70,7 +70,7 @@ const PostFormScreen = ({navigation}) => {
     );
   };
   console.log('state.dataUser.userName',state.dataUser.userName)
-  console.log('state.dataUser.uri',state.dataUser.userAvatarImage.uri)
+  
   
   const submit  = () => {
     var postData = {
@@ -106,7 +106,7 @@ const PostFormScreen = ({navigation}) => {
           onChangeText={setTextInput}
         />
       </View>
-      <Button title="Add" onPress={submit} />
+      { loadingImage ? <Loading/> : <Button title="Add" onPress={submit} />}
     </View>
   );
 };
