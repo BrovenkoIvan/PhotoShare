@@ -9,34 +9,34 @@ import {
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {signin} from '../redux/actions'
+import {signin, cleanError} from '../redux/actions'
 
-const AuthForm = ({ }) => {
+const AuthForm = ({}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const {colors} = useTheme();
   const dispatch = useDispatch()
-
-  // const ErrorAlert = () => {
-  //   Alert.alert(
-  //     'Error',
-  //     `${state.errorMessage}`,
-  //     [
-  //       {
-  //         text: 'Cancel',
-  //         onPress: () => clearErrorMessage(),
-  //         style: 'cancel',
-  //       },
-  //       {
-  //         text: 'OK',
-  //         onPress: () => {
-  //           clearErrorMessage(), setEmail(''), setPassword('');
-  //         },
-  //       },
-  //     ],
-  //     {cancelable: false},
-  //   );
-  // };
+  const state = useSelector((state) => state.auth);
+  
+  if (state.errorMessage){
+    Alert.alert(
+      'Error',
+      `${state.errorMessage}`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => dispatch(cleanError()),
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            dispatch(cleanError()), setEmail(''), setPassword('');
+          },
+        },
+      ],
+      {cancelable: false},
+    );}
 
   return (
     <View style={styles.container}>

@@ -16,17 +16,16 @@ import Icon from 'react-native-vector-icons/Feather';
 import {useTheme} from '@react-navigation/native';
 import Loading from '../components/Loading';
 import UserPostList from '../components/UserPostList';
-import {setDataUser, signOut} from '../redux/actions'
+import {setDataUser, signOut} from '../redux/actions';
 
 const AccountScreen = ({navigation}) => {
-
   const {colors} = useTheme();
   const [userData, setUserData] = useState([]);
   const [avatarSourse, setAvatarSource] = useState(null);
   const [loadingImage, setLoadingImage] = useState(false);
 
   const state = useSelector((state) => state.auth);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -49,8 +48,9 @@ const AccountScreen = ({navigation}) => {
       .ref('/users/' + state.user.uid)
       .on('value', (snapshot) => {
         var data = snapshot.val();
+        console.log('asdfasdfaskdjfjlasbdfbasmndfb,asbdnfmnsad', data);
         setUserData(data);
-        dispatch(setDataUser(data))
+        dispatch(setDataUser(data));
       });
   };
 
@@ -59,7 +59,6 @@ const AccountScreen = ({navigation}) => {
       setAvatarSource({uri: userData.userAvatarImage.uri});
     }
   }, [userData]);
-  console.log(state.dataUser);
 
   const deleteAvatar = () => {
     if (userData.userAvatarImage) {
@@ -147,13 +146,13 @@ const AccountScreen = ({navigation}) => {
       }
     });
   };
-  console.log(state)
-  if(state.loading)
-  return(
-    <Loading/>
-  )
+  console.log(state);
+  if (state.loading) return <Loading />;
   return (
     <SafeAreaView style={styles.container}>
+      <View style={{ marginLeft: 20}}>
+        <Text style={{color: colors.text, fontSize: 20, fontFamily:'AvenirNext-DemiBold'}}>{userData.userName}</Text>
+      </View>
       <View style={{alignItems: 'center'}}>
         <View style={styles.imageContainer}>
           {loadingImage ? (
@@ -171,12 +170,8 @@ const AccountScreen = ({navigation}) => {
         {avatarSourse ? (
           <Button title={'Delete Avatar'} onPress={deleteAvatar} />
         ) : null}
-        <View>
-          <Text style={{color: colors.text}}>{userData.userName}</Text>
-        </View>
-
-        <UserPostList />
       </View>
+      <UserPostList />
     </SafeAreaView>
   );
 };
@@ -184,7 +179,8 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     // alignItems: 'center',
-    marginTop: 30,
+    marginTop: 10,
+    
   },
   imageContainer: {
     borderWidth: 1,

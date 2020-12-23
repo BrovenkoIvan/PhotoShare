@@ -17,7 +17,6 @@ import { useSelector} from 'react-redux';
 const PostFormScreen = ({navigation}) => {
   const [textInput, setTextInput] = useState('');
   const [imageSource, setImageSource] = useState({});
-  // const {state} = useContext(Context);
   const[loadingImage, setLoadingImage] = useState(false)
   const state = useSelector((state) => state.auth);
 
@@ -31,14 +30,14 @@ const PostFormScreen = ({navigation}) => {
       } else {
         const source = {uri: response.uri};
         setImageSource(source);
-        uploadAvatar(response.uri)
+        // uploadAvatar(response.uri)
       }
     });
   };
 
-  console.log(state.dataUser)
-
-  const uploadAvatar = (uri) => {
+  const uploadAvatar = () => {
+    console.log('imageSource',imageSource)
+    const uri = imageSource.uri
     const fileName = uri;
     var storageRef = storage().ref(
       `/users/${state.user.uid}/images/posts/${fileName}`,
@@ -64,19 +63,21 @@ const PostFormScreen = ({navigation}) => {
       },
       () => {
         storageRef.getDownloadURL().then((downloadUrl) => {
-          setImageSource({uri:downloadUrl})
+          const source = {uri: downloadUrl}
+          // setImageSource({uri:downloadUrl})
+          onSubmit(source)
+
         });
       },
     );
   };
-  console.log('state.dataUser.userName',state.dataUser.userName)
+  console.log('imageSource',imageSource)
   
-  
-  const submit  = () => {
+  const onSubmit  = (source) => {
     var postData = {
       author: {name: state.dataUser.userName, image: {uri: state.dataUser.userAvatarImage.uri}},
       text: textInput,
-      photo: imageSource,
+      photo: source,
       id: uuid.v1(),
       starCount: 0,
       uid: state.user.uid,
@@ -85,17 +86,20 @@ const PostFormScreen = ({navigation}) => {
     var updates = {};
     updates['/posts/' + newPostKey] = postData;
     updates['/user-posts/' + state.user.uid + '/' + newPostKey] = postData;
-    database().ref().update(updates);
-    navigation.navigate('Content');
+    database().ref().update(updates)
+    navigation.navigate('Content')
   };
-  
+  if (loadingImage){
+    return <Loading/>
+  }
   return (
     <View style={styles.container}>
       <View>
         <Text style={styles.title}>Add Post</Text>
       </View>
       <View style={styles.imageContainer}>
-        { loadingImage ? <Loading/> : <Image source={imageSource} style={styles.image} />}
+        {/* { loadingImage ? <Loading/> : <Image source={imageSource} style={styles.image} />} */}
+        <Image source={imageSource} style={styles.image} />
       </View>
       <Button title="Add photo" onPress={pickImage} />
       <View>
@@ -106,7 +110,8 @@ const PostFormScreen = ({navigation}) => {
           onChangeText={setTextInput}
         />
       </View>
-      { loadingImage ? <Loading/> : <Button title="Add" onPress={submit} />}
+      {/* { loadingImage ? <View><Loading/></View> : <Button title="Add" onPress={uploadAvatar} />} */}
+      <Button title="Add" onPress={uploadAvatar} />
     </View>
   );
 };

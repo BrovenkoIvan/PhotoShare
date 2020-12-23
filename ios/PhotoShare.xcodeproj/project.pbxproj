@@ -20,7 +20,7 @@
 		73A84500D80A3C0EB31C692E /* libPods-PhotoShare-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 275D4E232FE035510B06BC89 /* libPods-PhotoShare-tvOSTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		B27A92808A78AC5149BE313E /* libPods-PhotoShare-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BA208927BE54DB27B55814A /* libPods-PhotoShare-tvOS.a */; };
-		BF49AF51251A56A900207F0F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF49AF50251A56A800207F0F /* GoogleService-Info.plist */; };
+		BF640A4C2592404C00C1A978 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF640A4B2592404C00C1A978 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,7 +64,7 @@
 		63268461A908FC180D187F60 /* Pods-PhotoShare.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PhotoShare.release.xcconfig"; path = "Target Support Files/Pods-PhotoShare/Pods-PhotoShare.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = PhotoShare/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8DFBF122BC1B9E930F62737B /* libPods-PhotoShare-PhotoShareTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PhotoShare-PhotoShareTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BF49AF50251A56A800207F0F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BF640A4B2592404C00C1A978 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BFF5ECE1252A2BEB00FB5FFA /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		BFF5ECE2252A2BEB00FB5FFA /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		BFF5ECE3252A2BEB00FB5FFA /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
@@ -178,7 +178,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				BF49AF50251A56A800207F0F /* GoogleService-Info.plist */,
+				BF640A4B2592404C00C1A978 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* PhotoShare */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* PhotoShareTests */,
@@ -385,7 +385,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				BF49AF51251A56A900207F0F /* GoogleService-Info.plist in Resources */,
+				BF640A4C2592404C00C1A978 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

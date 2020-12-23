@@ -13,17 +13,7 @@ import Loading from '../components/Loading';
 
 const SigninScreen = ({navigation}) => {
   const { colors } = useTheme();
-  const state = useSelector((state) => state.auth);
-  // useEffect(() => {
-  //   const unsubscribe = navigation.addListener('willfocus', () => {
-  //     clearErrorMessage()
-  //   })
-  //   return unsubscribe
-  // },[navigation])
-  if(state.loading)
-  return(
-    <Loading/>
-  )
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.formView}>
